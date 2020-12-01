@@ -3,13 +3,12 @@
 
 import time
 # from typing import List
-import itertools
 
 def part01(directions: str) -> int:
     # North-South & East-West Coordinates
     ns, ew = 0, 0
     # Origin is always visited
-    visited_coords = [[ns, ew], ]
+    visited_coords = [(ns, ew), ]
     for d in directions:
         if d == "^":
             ns += 1
@@ -22,11 +21,9 @@ def part01(directions: str) -> int:
         else:
             pass
 
-        visited_coords.append([ns, ew])
+        visited_coords.append((ns, ew))
 
-    # Remove duplicates
-    visited_coords.sort()
-    return len([c for c,_ in itertools.groupby(visited_coords)])
+    return len(set(visited_coords))
 
 def part02():
     pass
