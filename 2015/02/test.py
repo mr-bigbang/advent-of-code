@@ -21,6 +21,19 @@ class TestDay02(unittest.TestCase):
         self.assertEqual(result, expected)
 
     # Part 02
+    def test_example03(self):
+        package = ["2x3x4", ]
+        expected = 34
+
+        result = code.part02(package)
+        self.assertEqual(result, expected)
+
+    def test_example04(self):
+        package = ["1x1x10", ]
+        expected = 14
+
+        result = code.part02(package)
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
