@@ -7,7 +7,7 @@ from typing import List
 def part01(expense_report: List[int]) -> int:
     for e in expense_report:
         partner = 2020 - e
-        if partner in expense_report:
+        if e != partner and partner in expense_report:
             return e * partner
 
 def part02(expense_report: List[int]) -> int:

@@ -13,6 +13,14 @@ class TestDay01(unittest.TestCase):
         result = code.part01(expense_report)
         self.assertEqual(result, expected)
 
+    # Don't count a 2020/2 value twice
+    def test_duplicate(self):
+        expense_report = [1010, 1721, 299]
+        expected = 514579
+
+        result = code.part01(expense_report)
+        self.assertEqual(result, expected)
+
     # Part 02
     def test_example02(self):
         expense_report = [979, 366, 675]
