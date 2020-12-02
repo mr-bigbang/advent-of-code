@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 
 import time
-# from typing import List
+from typing import List, Tuple
 
-def part01(directions: str) -> int:
+def get_houses(directions: str) -> List[Tuple[int]]:
     # North-South & East-West Coordinates
     ns, ew = 0, 0
     # Origin is always visited
@@ -23,10 +23,13 @@ def part01(directions: str) -> int:
 
         visited_coords.append((ns, ew))
 
-    return len(set(visited_coords))
+    return visited_coords
 
-def part02():
-    pass
+def part01(directions: str) -> int:
+    return len(frozenset(get_houses(directions)))
+
+def part02(directions: str) -> int:
+    return len(frozenset(get_houses(directions[::2]) + get_houses(directions[1::2])))
 
 if __name__ == '__main__':
     with open("input.txt", "r") as f:
@@ -38,6 +41,6 @@ if __name__ == '__main__':
     print(f"Code took {part_one - start_time:0.8f}s to run")
 
     start_time = time.perf_counter()
-    print("Solution to Part 02 is:", part02())
+    print("Solution to Part 02 is:", part02(directions))
     part_two = time.perf_counter()
     print(f"Code took {part_two - start_time:0.8f}s to run")

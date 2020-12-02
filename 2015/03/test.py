@@ -28,7 +28,26 @@ class TestDay03(unittest.TestCase):
         self.assertEqual(result, expected)
 
     # Part 02
-    pass
+    def test_example04(self):
+        directions = "^v"
+        expected = 3
+
+        result = code.part02(directions)
+        self.assertEqual(result, expected)
+
+    def test_example05(self):
+        directions = "^>v<"
+        expected = 3
+
+        result = code.part02(directions)
+        self.assertEqual(result, expected)
+
+    def test_example06(self):
+        directions = "^v^v^v^v^v"
+        expected = 11
+
+        result = code.part02(directions)
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
