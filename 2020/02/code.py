@@ -6,21 +6,20 @@ from typing import List
 
 class Validator:
     def __init__(self, entry):
-        pol, pw = entry.split(':')
-        occ, char = pol.split(' ')
-        low, high = occ.split('-')
+        policy, password = entry.split(':')
+        occurrences, self.char = policy.split(' ')
+        self.low, self.high = map(int, occurrences.split('-'))
 
-        self.low = int(low)
-        self.high = int(high)
-        self.char = char
-        self.pw = pw.strip()
+        self.pw = password.strip()
 
     def valid(self):
         occ = self.pw.count(self.char)
-        return occ >= self.low and occ <= self.high
+        # Interval comparison
+        return self.low <= occ <= self.high
 
     def valid_pos(self):
-        return (self.pw[self.low - 1] == self.char) ^ (self.pw[self.high - 1] == self.char)
+        return (self.pw[self.low - 1] == self.char) ^ \
+               (self.pw[self.high - 1] == self.char)
 
 def part01(passwords: List[str]) -> int:
     # Create Validator instance for all password entries
@@ -29,7 +28,7 @@ def part01(passwords: List[str]) -> int:
     # Call valid() on each Validator instance, dropping invalid
     valid_passwords = filter(lambda pw: pw.valid(), validators)
 
-    return(len(list(valid_passwords)))
+    return len(list(valid_passwords))
 
 def part02(passwords: List[str]) -> int:
     # Create Validator instance for all password entries
@@ -38,7 +37,7 @@ def part02(passwords: List[str]) -> int:
     # Call valid_pos() on each Validator instance, dropping invalid
     valid_passwords = filter(lambda pw: pw.valid_pos(), validators)
 
-    return(len(list(valid_passwords)))
+    return len(list(valid_passwords))
 
 if __name__ == '__main__':
     with open("input.txt", "r") as f:
