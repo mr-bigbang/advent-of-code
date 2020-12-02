@@ -4,7 +4,7 @@
 import unittest
 import code
 
-class TestDay02(unittest.TestCase):
+class TestDay03(unittest.TestCase):
     # Part 01
     def test_example01(self):
         directions = ">"
