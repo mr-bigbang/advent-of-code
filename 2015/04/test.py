@@ -13,7 +13,6 @@ class TestDay04(unittest.TestCase):
         result = code.part01(secret)
         self.assertEqual(result, expected)
 
-
     def test_example02(self):
         secret = "pqrstuv"
         expected = 1048970
