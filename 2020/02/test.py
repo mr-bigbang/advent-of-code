@@ -16,7 +16,14 @@ class TestDay02(unittest.TestCase):
         self.assertEqual(result, expected)
 
     # Part 02
-    pass
+    def test_example02(self):
+        passwords = ["1-3 a: abcde",
+                     "1-3 b: cdefg",
+                     "2-9 c: ccccccccc"]
+        expected = 1
+
+        result = code.part02(passwords)
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
