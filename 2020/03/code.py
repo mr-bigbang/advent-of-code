@@ -13,12 +13,9 @@ def get_trees(geology: List[str], slope: Tuple[int, int]) -> int:
         row = geology[y]
         trees += 1 if row[x] == '#' else 0
 
-        # Add slope to position
-        x += slope[0]
+        # Add slope to position and wrap x-axis
+        x = (x + slope[0]) % len(row)
         y += slope[1]
-
-        # Wrap X-Axis
-        x -= len(row) if x >= len(row) else 0
 
     return trees
 
