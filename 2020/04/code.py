@@ -15,15 +15,16 @@ class Validator:
 
     def is_still_valid(self) -> bool:
         if self.is_valid():
-            byr = 1920 <= int(self.attributes['byr']) <= 2002
-            iyr = 2010 <= int(self.attributes['iyr']) <= 2020
-            eyr = 2020 <= int(self.attributes['eyr']) <= 2030
-            hgt = 150 <= int(self.attributes['hgt'][:-2]) <= 193 if "cm" in self.attributes['hgt'] else 59 <= int(self.attributes['hgt'][:-2]) <= 76
-            hcl = self.attributes['hcl'][0] == '#' and int(self.attributes['eyr'][1:], 16)
-            ecl = self.attributes['ecl'] in ('amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth')
-            pid = len(self.attributes['pid']) == 9
+            if not 1920 <= int(self.attributes['byr']) <= 2002: return
+            if not 2010 <= int(self.attributes['iyr']) <= 2020: return
+            if not 2020 <= int(self.attributes['eyr']) <= 2030: return
+            if not (150 <= int(self.attributes['hgt'][:-2]) <= 193 if "cm" in self.attributes['hgt'] else \
+                59 <= int(self.attributes['hgt'][:-2]) <= 76): return
+            if not self.attributes['hcl'][0] == '#' and int(self.attributes['eyr'][1:], 16): return
+            if not self.attributes['ecl'] in ('amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'): return
+            if not len(self.attributes['pid']) == 9: return
 
-            return False not in (byr, iyr, eyr, hgt, hcl, ecl, pid)
+            return True
         else:
             return False
 
