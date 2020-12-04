@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 import time
-from typing import List
+from typing import List, Optional
 
 class Validator:
     def __init__(self, passport: str):
@@ -13,7 +13,7 @@ class Validator:
         tests = list(map(lambda a: a in self.attributes, required_attributes))
         return False not in tests
 
-    def is_still_valid(self) -> bool:
+    def is_still_valid(self) -> Optional[bool]:
         if self.is_valid():
             if not 1920 <= int(self.attributes['byr']) <= 2002: return
             if not 2010 <= int(self.attributes['iyr']) <= 2020: return
