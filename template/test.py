@@ -4,7 +4,7 @@
 import unittest
 import code
 
-class TestDay02(unittest.TestCase):
+class TestDayXX(unittest.TestCase):
     # Part 01
     # Part 02
     pass

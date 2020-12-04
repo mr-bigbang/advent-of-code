@@ -1,4 +1,4 @@
-# Day 2: xxxxxx
+# Day XX: xxxxxx
 
 ## Part One
 
