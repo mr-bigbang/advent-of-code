@@ -37,7 +37,35 @@ class TestDay05(unittest.TestCase):
         self.assertFalse(result)
 
     # Part 02
-    pass
+    def test_example06(self):
+        string = "qjhvhtzxzqqjkmpb"
+
+        result = code.is_still_nice(string)
+        self.assertTrue(result)
+
+    def test_example07(self):
+        string = "xxyxx"
+
+        result = code.is_still_nice(string)
+        self.assertTrue(result)
+
+    def test_example08(self):
+        string = "uurcxstgmygtbstg"
+
+        result = code.is_still_nice(string)
+        self.assertFalse(result)
+
+    def test_example09(self):
+        string = "ieodomkazucvgmuy"
+
+        result = code.is_still_nice(string)
+        self.assertFalse(result)
+
+    def test_triples(self):
+        string = "qpnxkuldeiituggg"
+
+        result = code.is_still_nice(string)
+        self.assertFalse(result)
 
 if __name__ == '__main__':
     unittest.main()
