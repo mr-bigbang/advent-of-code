@@ -29,7 +29,6 @@ class TestDay05(unittest.TestCase):
         self.assertEqual(result, max(seat_id))
 
     # Part 02
-    pass
 
 if __name__ == '__main__':
     unittest.main()
