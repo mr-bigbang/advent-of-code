@@ -4,19 +4,16 @@
 import sys, timeit
 from typing import List
 
-from pprint import pprint
-
 def part01(answers: List[str]) -> int:
-    return sum(map(lambda a: (len(set("".join(a)))), answers))
+    return sum(map(lambda a: len(set("".join(a))), answers))
 
 def part02(answers: List[str]) -> int:
     i = 0
     for a in answers:
-        for c in "abcdefghijklmnopqrstuvwxyz":
-            # len(e) > 0 because I'm to stupid to remove \n at EOF
-            if all(c in e for e in a if len(e) > 0):
-                i += 1
-
+        m = set(a[0])
+        for x in a[1:]:
+            m = m.intersection(x)
+        i += len(m)
     return i
 
 if __name__ == '__main__':
@@ -25,7 +22,7 @@ if __name__ == '__main__':
 
     with open("input.txt", "r") as f:
         # [ ("abc",), ("a", "b", "c"), ("ab", "ac"), ("a", "a", "a", "a"), ("b",)]
-        answers = [tuple(x.split('\n')) for x in f.read().split('\n\n')]
+        answers = [tuple(x.splitlines()) for x in f.read().split('\n\n')]
 
     if "-1" in sys.argv:
         print("Solution to Part One is:", part01(answers))
