@@ -7,18 +7,27 @@ import code
 class TestDay06(unittest.TestCase):
     # Part 01
     def test_example01(self):
-        answers = ["abc",
-                   "abc",
-                   "abac",
-                   "aaaa",
-                   "b"]
+        answers = [("abc",),
+                   ("a", "b", "c"),
+                   ("ab", "ac"),
+                   ("a", "a", "a", "a"),
+                   ("b")]
         expected = 11
 
         result = code.part01(answers)
         self.assertEqual(result, expected)
 
     # Part 02
-    pass
+    def test_example02(self):
+        answers = [("abc",),
+                   ("a", "b", "c"),
+                   ("ab", "ac"),
+                   ("a", "a", "a", "a"),
+                   ("b")]
+        expected = 6
+
+        result = code.part02(answers)
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
