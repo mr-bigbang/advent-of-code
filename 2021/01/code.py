@@ -7,6 +7,7 @@ from typing import List
 def part01(input: List[int]):
     result = 0
     last_measure = 0
+
     for measure in input:
         if measure > last_measure:
             result += 1
@@ -17,13 +18,12 @@ def part02(input: List[int]):
     result = 0
     last_measure = 0
 
-    i = 0
-    while i < len(input) - 1:
+    # The last two items are never the start of a sliding window
+    for i in range(len(input) - 2):
         measure = sum(input[i:i+3])
         if measure > last_measure:
             result += 1
         last_measure = measure
-        i += 1
     return result - 1 # The first measurement is not counted
 
 if __name__ == '__main__':
