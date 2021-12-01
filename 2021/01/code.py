@@ -5,16 +5,26 @@ import sys, timeit
 from typing import List
 
 def part01(input: List[int]):
-    i = 0
+    result = 0
     last_measure = 0
     for measure in input:
         if measure > last_measure:
-            i += 1
+            result += 1
         last_measure = measure
-    return i - 1 # The first measurement is not counted
+    return result - 1 # The first measurement is not counted
 
-def part02():
-    pass
+def part02(input: List[int]):
+    result = 0
+    last_measure = 0
+
+    i = 0
+    while i < len(input) - 1:
+        measure = sum(input[i:i+3])
+        if measure > last_measure:
+            result += 1
+        last_measure = measure
+        i += 1
+    return result - 1 # The first measurement is not counted
 
 if __name__ == '__main__':
     BENCH_LOOPS = 1
@@ -27,14 +37,14 @@ if __name__ == '__main__':
         print("Solution to Part One is:", part01(input))
 
         if "-b" in sys.argv:
-            t1 = timeit.Timer("part01()", globals=locals())
+            t1 = timeit.Timer("part01(input)", globals=locals())
             time_p1 = min(t1.repeat(repeat=BENCH_REPEAT, number=BENCH_LOOPS))
             print(f"Part One: {BENCH_LOOPS} loops, best of {BENCH_REPEAT} repeats: {time_p1:0.8f}s")
     elif "-2" in sys.argv:
-        print("Solution to Part Two is:", part02())
+        print("Solution to Part Two is:", part02(input))
 
         if "-b" in sys.argv:
-            t2 = timeit.Timer("part02()", globals=locals())
+            t2 = timeit.Timer("part02(input)", globals=locals())
             time_p2 = min(t2.repeat(repeat=BENCH_REPEAT, number=BENCH_LOOPS))
             print(f"Part Two: {BENCH_LOOPS} loops, best of {BENCH_REPEAT} repeats: {time_p2:0.8f}s")
     else:
