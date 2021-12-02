@@ -20,7 +20,18 @@ class TestDay02(unittest.TestCase):
         self.assertEqual(result, expected)
 
     # Part 02
-    pass
+    def test_example02(self):
+        commands = [
+                "forward 5",
+                "down 5",
+                "forward 8",
+                "up 3",
+                "down 8",
+                "forward 2"]
+        expected = 900
+
+        result = code.part02(commands)
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
