@@ -4,10 +4,25 @@
 import unittest
 import code
 
+
 class TestDayXX(unittest.TestCase):
+    def setUp(self) -> None:
+        pass
+
     # Part 01
+    def test_example01(self):
+        expected = None
+
+        result = code.part01()
+        self.assertEqual(expected, result)
+
     # Part 02
-    pass
+    def test_example02(self):
+        expected = None
+
+        result = code.part01()
+        self.assertEqual(expected, result)
+
 
 if __name__ == '__main__':
     unittest.main()
