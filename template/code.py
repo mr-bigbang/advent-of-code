@@ -6,11 +6,11 @@ import timeit
 from typing import List, Optional, Tuple
 
 
-def part01():
+def part01(values: Tuple[str]) -> int:
     pass
 
 
-def part02():
+def part02(values: Tuple[str]) -> int:
     pass
 
 
