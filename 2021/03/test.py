@@ -30,6 +30,11 @@ class TestDay03(unittest.TestCase):
         self.assertEqual(expected, result)
 
     # Part 02
+    def test_example02(self):
+        expected = 230
+
+        result = code.part02(self.data)
+        self.assertEqual(expected, result)
 
 
 if __name__ == '__main__':
