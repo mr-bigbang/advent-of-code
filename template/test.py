@@ -7,21 +7,23 @@ import code
 
 class TestDayXX(unittest.TestCase):
     def setUp(self) -> None:
-        pass
+        self.data = [
+
+        ]
 
     # Part 01
     def test_example01(self):
         expected = None
 
-        result = code.part01()
+        result = code.part01(self.data)
         self.assertEqual(expected, result)
 
     # Part 02
-    def test_example02(self):
-        expected = None
-
-        result = code.part01()
-        self.assertEqual(expected, result)
+    #def test_example02(self):
+    #    expected = None
+    #
+    #    result = code.part02(self.data)
+    #    self.assertEqual(expected, result)
 
 
 if __name__ == '__main__':
