@@ -2,19 +2,61 @@
 # -*- encoding: utf-8 -*-
 
 import sys, timeit
-from typing import Tuple, List, Optional
+from typing import Tuple
 
-def part01(diagnostics: Tuple[int]) -> int:
-    num_bits = max(diagnostics).bit_length()
 
-    counter = [False] * num_bits
-    for i in range(num_bits):
-        counter[i] = most_common(diagnostics, i)
+def bit_at(value: int, pos: int) -> bool:
+    return value & (1 << pos) != 0
+    # -or-
+    #return (value >> pos) & 1 != 0
 
+
+def most_common(values: Tuple[int], pos: int) -> bool:
+    # This looks nicer but is ~3x slower :-(
+    # $ ./code.py -1 -b
+    # Part One: 1 loops, best of 10000 repeats: 0.00258914s
+    # $ ./code.py -2 -b
+    # Part Two: 1 loops, best of 10000 repeats: 0.00175088s
+    #return len(list(filter(lambda x: bit_at(x, pos), values))) * 2 >= len(values)
+
+    # Why is this faster?
+    # $ ./code.py -1 -b
+    # Part One: 1 loops, best of 10000 repeats: 0.00085089s
+    # $ ./code.py -2 -b
+    # Part Two: 1 loops, best of 10000 repeats: 0.00111577s
+    counter = 0
+    mask = 1 << pos
+    for v in values:
+        if v & mask == mask:
+            counter += 1
+        else:
+            counter -= 1
+
+    return counter >= 0
+
+
+def rating(values: Tuple[int], want: bool):
+    num_bits = max(values).bit_length()
+    matching_values = values
+    for i in reversed(range(num_bits)):
+        if len(matching_values) == 1:
+            break
+
+        if most_common(matching_values, i) == want:
+            matching_values = list(filter(lambda x: bit_at(x, i), matching_values))
+        else:
+            matching_values = list(filter(lambda x: not bit_at(x, i), matching_values))
+
+    return matching_values[0]
+
+
+def part01(data: Tuple[int]) -> int:
     gamma_rate = 0
     epsilon_rate = 0
-    for i in range(len(counter)):
-        if counter[i]:
+    num_bits = max(data).bit_length()
+
+    for i in range(num_bits):
+        if most_common(data, i):
             gamma_rate |= (1 << i)
         else:
             epsilon_rate |= (1 << i)
@@ -22,56 +64,8 @@ def part01(diagnostics: Tuple[int]) -> int:
     return gamma_rate * epsilon_rate
 
 
-def most_common(values: List[int], pos: int) -> Optional[bool]:
-    counter = 0
-    for v in values:
-        if v & (1 << pos) == (1 << pos):
-            counter += 1
-        else:
-            counter -= 1
-
-    return None if counter == 0 else counter > 0
-
-
-def least_common(values: List[int], pos: int) -> Optional[bool]:
-    mc = most_common(values, pos)
-    return None if mc is None else not mc
-
-
-def one_at_pos(value: int, pos: int) -> bool:
-    return value & (1 << pos) > 0
-
-
-def oxygen_generator_rating(values: List[int]):
-    num_bits = max(values).bit_length()
-    for i in range(num_bits - 1, -1, -1):
-        if len(values) == 1:
-            break
-
-        if most_common(values, i) == 0:
-            values = list(filter(lambda x: not one_at_pos(x, i), values))
-        else:
-            values = list(filter(lambda x: one_at_pos(x, i), values))
-
-    return values[0]
-
-
-def co2_scrubber_rating(values: List[int]):
-    num_bits = max(values).bit_length()
-    for i in range(num_bits - 1, -1, -1):
-        if len(values) == 1:
-            break
-
-        if least_common(values, i) == 1:
-            values = list(filter(lambda x: one_at_pos(x, i), values))
-        else:
-            values = list(filter(lambda x: not one_at_pos(x, i), values))
-
-    return values[0]
-
-
-def part02(diagnostics: Tuple[int]) -> int:
-    return oxygen_generator_rating(diagnostics) * co2_scrubber_rating(diagnostics)
+def part02(data: Tuple[int]) -> int:
+    return rating(data, True) * rating(data, False)
 
 
 if __name__ == '__main__':

@@ -22,6 +22,9 @@ class TestDay03(unittest.TestCase):
             0b01010,
         ]
 
+        with open("input.txt", "r") as f:
+            self.input = list(map(lambda x: int(x, 2), f.readlines()))
+
     # Part 01
     def test_example01(self):
         expected = 198
@@ -29,11 +32,23 @@ class TestDay03(unittest.TestCase):
         result = code.part01(self.data)
         self.assertEqual(expected, result)
 
+    def test_result01(self):
+        expected = 3985686
+
+        result = code.part01(self.input)
+        self.assertEqual(expected, result)
+
     # Part 02
     def test_example02(self):
         expected = 230
 
         result = code.part02(self.data)
+        self.assertEqual(expected, result)
+
+    def test_result02(self):
+        expected = 2555739
+
+        result = code.part02(self.input)
         self.assertEqual(expected, result)
 
 
