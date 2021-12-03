@@ -7,19 +7,14 @@ from typing import Tuple, List, Optional
 def part01(diagnostics: Tuple[int]) -> int:
     num_bits = max(diagnostics).bit_length()
 
-    counter = [0] * num_bits
-    for d in diagnostics:
-        # counter = [counter[b] + 1 if d & (1 << b) == (1 << b) else counter[b] - 1 for b in range(num_bits)]
-        for b in range(num_bits):
-            if d & (1 << b) == (1 << b):
-                counter[b] += 1
-            else:
-                counter[b] -= 1
+    counter = [False] * num_bits
+    for i in range(num_bits):
+        counter[i] = most_common(diagnostics, i)
 
     gamma_rate = 0
     epsilon_rate = 0
     for i in range(len(counter)):
-        if counter[i] > 0:
+        if counter[i]:
             gamma_rate |= (1 << i)
         else:
             epsilon_rate |= (1 << i)
@@ -27,7 +22,7 @@ def part01(diagnostics: Tuple[int]) -> int:
     return gamma_rate * epsilon_rate
 
 
-def most_common(values, pos) -> Optional[bool]:
+def most_common(values: List[int], pos: int) -> Optional[bool]:
     counter = 0
     for v in values:
         if v & (1 << pos) == (1 << pos):
@@ -38,7 +33,7 @@ def most_common(values, pos) -> Optional[bool]:
     return None if counter == 0 else counter > 0
 
 
-def least_common(values, pos) -> Optional[bool]:
+def least_common(values: List[int], pos: int) -> Optional[bool]:
     mc = most_common(values, pos)
     return None if mc is None else not mc
 
