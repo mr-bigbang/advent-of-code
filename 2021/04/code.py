@@ -3,51 +3,34 @@
 
 import sys
 import timeit
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple
 
 
 class Board:
-    # Board-Layout
-    # [ [ (int, bool), (int, bool), (int, bool), (int, bool), (int, bool)],
-    #   [ (int, bool), (int, bool), (int, bool), (int, bool), (int, bool)],
-    #   [ (int, bool), (int, bool), (int, bool), (int, bool), (int, bool)],
-    #   [ (int, bool), (int, bool), (int, bool), (int, bool), (int, bool)],
-    #   [ (int, bool), (int, bool), (int, bool), (int, bool), (int, bool)] ]
-
-    def __init__(self):
-        self._board = []
+    def __init__(self, board: Tuple[int]):
+        self._board = board
+        self._marks = [False] * 5 * 5
         self._number = None
 
-    def add_row(self, row: Tuple[int]) -> None:
-        self._board.append(list(map(list, zip(row, [False] * 5))))
-
-    def bingo(self, number: int) -> None:
-        for r in range(5):
-            for c in range(5):
-                if self._board[r][c][0] == number:
-                    self._board[r][c][1] = True
-                    break
+    def play(self, number: int) -> None:
+        if number in self._board:
+            i = self._board.index(number)
+            self._marks[i] = True
 
         self._number = number
 
     def get_score(self) -> int:
-        score = 0
-        for r in self._board:
-            for c in r:
-                if not c[1]:
-                    score += c[0]
+        score = sum([self._board[i] for i in range(5*5) if not self._marks[i]])
 
         return score * self._number
 
-    def is_winner(self) -> bool:
-        # Check rows
-        for r in self._board:
-            if len(list(filter(lambda x: x[1], r))) == 5:
+    def bingo(self) -> bool:
+        for i in range(0, len(self._marks), 5):
+            if sum(self._marks[i:i+5]) == 5:
                 return True
 
-        # Check columns
-        for c in range(5):
-            if len(list(filter(lambda x: x[1], [row[c] for row in self._board]))) == 5:
+        for i in range(5):
+            if sum(self._marks[i::5]) == 5:
                 return True
 
         return False
@@ -55,15 +38,9 @@ class Board:
 
 def parse_input(values: Tuple[str]) -> Tuple[List[Board], Tuple[int]]:
     draws = tuple(map(int, values[0].split(',')))
-    boards = []
 
-    board = Board()
-    for line in values[2:]:
-        if line and line != '\n':
-            board.add_row(tuple(map(int, line.replace("  ", " ").strip().split(" "))))
-        else:
-            boards.append(board)
-            board = Board()
+    board_lines = map(lambda l: l.replace('\n', ' ').replace('  ', ' ').split(' '), values[1:])
+    boards = [Board(tuple(map(int, filter(lambda x: x != '', b)))) for b in board_lines]
 
     return boards, draws
 
@@ -71,18 +48,14 @@ def parse_input(values: Tuple[str]) -> Tuple[List[Board], Tuple[int]]:
 def part01(values: Tuple[str]) -> int:
     boards, draw = parse_input(values)
 
-    winner: Board = None
     for i in draw:
         # Set number on all boards
-        list(map(lambda x: x.bingo(i), boards))
+        list(map(lambda x: x.play(i), boards))
 
         # Check if winner
-        w = list(filter(lambda x: x.is_winner(), boards))
+        w = list(filter(lambda x: x.bingo(), boards))
         if len(w) > 0:
-            winner = w[0]
-            break
-
-    return winner.get_score()
+            return w[0].get_score()
 
 
 def part02(values: Tuple[str]) -> int:
@@ -94,8 +67,9 @@ if __name__ == '__main__':
     BENCH_REPEAT = 10000
 
     with open("input.txt", "r") as f:
-        #data = list(map(int, f.readlines()))
-        data = f.readlines()
+        # data[0] is the draws
+        # data[1:] are the boards
+        data = tuple(f.read().split('\n\n'))
 
     if "-1" in sys.argv:
         print("Solution to Part One is:", part01(data))
