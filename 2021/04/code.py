@@ -59,7 +59,22 @@ def part01(values: Tuple[str]) -> int:
 
 
 def part02(values: Tuple[str]) -> int:
-    pass
+    boards, draw = parse_input(values)
+
+    winner = None
+    for i in draw:
+        # Set number on all boards
+        list(map(lambda x: x.play(i), boards))
+
+        # Remove winners from list
+        list(map(lambda x: boards.remove(x), filter(lambda x: x.bingo(), boards)))
+
+        if len(boards) == 1:
+            winner = boards[0]
+        elif len(boards) == 0:
+            break
+
+    return winner.get_score()
 
 
 if __name__ == '__main__':
