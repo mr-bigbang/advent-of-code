@@ -28,25 +28,17 @@ def part01(values: Tuple[str]) -> int:
 
         if x_start == x_end:
             # Vertical line
-            if y_start < y_end:
-                for y in range(y_start, y_end + 1):
-                    vents[y * width + x_start] += 1
-            else:
-                for y in reversed(range(y_end, y_start + 1)):
-                    vents[y * width + x_start] += 1
+            for y in range(min(y_start, y_end), max(y_start, y_end) + 1):
+                vents[y * width + x_start] += 1
         elif y_start == y_end:
             # Horizontal line
-            if x_start < x_end:
-                for x in range(x_start, x_end + 1):
-                    vents[y_start * width + x] += 1
-            else:
-                for x in reversed(range(x_end, x_start + 1)):
-                    vents[y_start * width + x] += 1
+            for x in range(min(x_start, x_end), max(x_start, x_end) + 1):
+                vents[y_start * width + x] += 1
         else:
             # Ignore for now
             pass
 
-    return len(list(filter(lambda v: v >= 2, vents)))
+    return len(list(filter(lambda v: v > 1, vents)))
 
 
 def part02(values: Tuple[str]) -> int:
