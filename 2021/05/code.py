@@ -15,28 +15,32 @@ def parse_input(values: Tuple[str]) -> List[Tuple[int, int]]:
     return ret
 
 
-def part01(values: Tuple[str]) -> int:
-    coord = parse_input(values)
-    max_x = max(max([(v[0][0], v[1][0]) for v in coord]))
-    max_y = max(max([(v[0][1], v[1][1]) for v in coord]))
-
-    width, height = max_x + 1, max_y + 1
-    vents = [0] * height * width
-    for c in coord:
-        x_start, y_start = c[0]
-        x_end, y_end = c[1]
-
-        if x_start == x_end:
-            # Vertical line
-            for y in range(min(y_start, y_end), max(y_start, y_end) + 1):
-                vents[y * width + x_start] += 1
-        elif y_start == y_end:
+def flatten_coords(values) -> List[Tuple[int, int]]:
+    ret = []
+    for v in values:
+        x, y, xx, yy = v[0] + v[1]
+        if x == xx:
             # Horizontal line
-            for x in range(min(x_start, x_end), max(x_start, x_end) + 1):
-                vents[y_start * width + x] += 1
+            ret += [(x, i) for i in range(min(y, yy), max(y, yy) + 1)]
+        elif y == yy:
+            # Vertical line
+            ret += [(i, y) for i in range(min(x, xx), max(x, xx) + 1)]
         else:
             # Ignore for now
             pass
+
+    return ret
+
+
+def part01(values: Tuple[str]) -> int:
+    flat_coords = flatten_coords(parse_input(values))
+    max_x = max([c[0] for c in flat_coords])
+    max_y = max([c[1] for c in flat_coords])
+
+    width, height = max_x + 1, max_y + 1
+    vents = [0] * height * width
+    for c in flat_coords:
+        vents[c[1] * width + c[0]] += 1
 
     return len(list(filter(lambda v: v > 1, vents)))
 
