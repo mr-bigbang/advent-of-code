@@ -15,8 +15,13 @@ def parse_input(values: Tuple[str]) -> List[Tuple[int, int]]:
     return ret
 
 
-def flatten_coords(values) -> List[Tuple[int, int]]:
-    ret = []
+def flatten_coordinates(values, ignore_diagonals: bool) -> List[Tuple[int, int]]:
+    # Create a list with all hit coordinates
+
+    def offset(x1, x2):
+        return int(x1 < x2) - int(x1 > x2)
+
+    ret = list()
     for v in values:
         x, y, xx, yy = v[0] + v[1]
         if x == xx:
@@ -26,27 +31,43 @@ def flatten_coords(values) -> List[Tuple[int, int]]:
             # Vertical line
             ret += [(i, y) for i in range(min(x, xx), max(x, xx) + 1)]
         else:
-            # Ignore for now
-            pass
+            # Diagonal line
+            if not ignore_diagonals:
+                # Stolen from https://git.kageru.moe/kageru/advent-of-code/src/branch/master/2021/src/bin/day05.rs
+                x_off = offset(x, xx)
+                y_off = offset(y, yy)
+                while True:
+                    ret.append((x, y))
+                    if x == xx and y == yy:
+                        break
+                    x += x_off
+                    y += y_off
 
     return ret
 
 
-def part01(values: Tuple[str]) -> int:
-    flat_coords = flatten_coords(parse_input(values))
-    max_x = max([c[0] for c in flat_coords])
-    max_y = max([c[1] for c in flat_coords])
+def get_vents(flat_coordinates: List[Tuple[int, int]]):
+    max_x = max([c[0] for c in flat_coordinates])
+    max_y = max([c[1] for c in flat_coordinates])
 
     width, height = max_x + 1, max_y + 1
     vents = [0] * height * width
-    for c in flat_coords:
+    for c in flat_coordinates:
         vents[c[1] * width + c[0]] += 1
 
     return len(list(filter(lambda v: v > 1, vents)))
 
 
+def part01(values: Tuple[str]) -> int:
+    coordinates = parse_input(values)
+    flat_coordinates = flatten_coordinates(coordinates, True)
+    return get_vents(flat_coordinates)
+
+
 def part02(values: Tuple[str]) -> int:
-    pass
+    coordinates = parse_input(values)
+    flat_coordinates = flatten_coordinates(coordinates, False)
+    return get_vents(flat_coordinates)
 
 
 if __name__ == '__main__':
