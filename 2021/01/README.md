@@ -1,4 +1,4 @@
-# Day 01: Sonar Sweep
+# Day 1: Sonar Sweep
 
 ## Part One
 

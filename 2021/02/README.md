@@ -1,4 +1,4 @@
-# Day 02: Dive!
+# Day 2: Dive!
 
 ## Part One
 

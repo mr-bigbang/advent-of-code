@@ -1,4 +1,4 @@
-# Day 04: Giant Squid
+# Day 4: Giant Squid
 
 ## Part One
 

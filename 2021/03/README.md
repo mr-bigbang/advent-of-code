@@ -1,4 +1,4 @@
-# Day 03: Binary Diagnostic
+# Day 3: Binary Diagnostic
 
 ## Part One
 
