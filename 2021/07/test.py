@@ -26,17 +26,17 @@ class TestDay07(unittest.TestCase):
         self.assertEqual(expected, result)
 
     # Part 02
-    # def test_example02(self):
-    #     expected = None
-    #
-    #     result = code.part02(self.data)
-    #     self.assertEqual(expected, result)
-    #
-    # def test_result02(self):
-    #     expected = None
-    #
-    #     result = code.part02(self.input)
-    #     self.assertEqual(expected, result)
+    def test_example02(self):
+        expected = 168
+
+        result = code.part02(self.data)
+        self.assertEqual(expected, result)
+
+    def test_result02(self):
+        expected = 101618069
+
+        result = code.part02(self.input)
+        self.assertEqual(expected, result)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-
+import math
 import sys
 import timeit
 from typing import List, Optional, Tuple
@@ -15,8 +15,18 @@ def part01(values: Tuple[int]) -> int:
     return cost
 
 
-def part02(values: Tuple[str]) -> int:
-    pass
+def part02(values):
+    # This took me ages to figure out (in the end I stole it from reddit) and still don't get it fully
+    #
+    # I think Math says that the minimum position is between -0.5 and +0.5 of the average
+    #   avg + 0.5 >= pos >= avg - 0.5
+    # and we use floor/ceil for the 0.5 deviation.
+    avg = sum(values) / len(values)
+    floor, ceil = math.floor(avg), math.ceil(avg)
+    fuel_f = sum((sum(range(1, abs(x - floor) + 1)) for x in values))
+    fuel_c = sum((sum(range(1, abs(x - ceil) + 1)) for x in values))
+
+    return fuel_f if fuel_f < fuel_c else fuel_c
 
 
 if __name__ == '__main__':
