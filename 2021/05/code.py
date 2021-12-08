@@ -7,6 +7,7 @@ from typing import List, Optional, Tuple
 
 
 def parse_input(values: Tuple[str]) -> List[Tuple[int, int]]:
+    # 1 loops, best of 10000 repeats: 0.00061935s
     ret = list()
     for v in values:
         l, r = v.split(" -> ")
@@ -17,6 +18,8 @@ def parse_input(values: Tuple[str]) -> List[Tuple[int, int]]:
 
 def flatten_coordinates(values, ignore_diagonals: bool) -> List[Tuple[int, int]]:
     # Create a list with all hit coordinates
+    # ignore_diagonals = True:  1 loops, best of 10000 repeats: 0.00736938s
+    # ignore_diagonals = False: 1 loops, best of 10000 repeats: 0.01770101s
 
     def offset(x1, x2):
         return int(x1 < x2) - int(x1 > x2)
@@ -47,15 +50,18 @@ def flatten_coordinates(values, ignore_diagonals: bool) -> List[Tuple[int, int]]
 
 
 def get_vents(flat_coordinates: List[Tuple[int, int]]):
-    max_x = max([c[0] for c in flat_coordinates])
-    max_y = max([c[1] for c in flat_coordinates])
+    # ignore_diagonals = True:  1 loops, best of 10000 repeats: 0.07672771s
+    # ignore_diagonals = False: 1 loops, best of 10000 repeats: 0.09608512s
+
+    max_x = max([c[0] for c in flat_coordinates])  # 0.006s / 2 perf hit
+    max_y = max([c[1] for c in flat_coordinates])  # 0.006s / 2 perf hit
 
     width, height = max_x + 1, max_y + 1
     vents = [0] * height * width
-    for c in flat_coordinates:
+    for c in flat_coordinates:  # 0.017s perf hit (whole loop)
         vents[c[1] * width + c[0]] += 1
 
-    return len(list(filter(lambda v: v > 1, vents)))
+    return len(list(filter(lambda v: v > 1, vents)))  # 0.053s perf hit
 
 
 def part01(values: Tuple[str]) -> int:
