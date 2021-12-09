@@ -6,12 +6,12 @@ import timeit
 from typing import List, Optional, Tuple
 
 
-def parse_input(values: Tuple[str]):
-    return tuple((d[0].split(' '), d[1].split(' ')) for d in (v.removesuffix('\n').split(' | ') for v in values))
+def parse_input(values: Tuple[str]) -> List[List[str]]:
+    return [v.removesuffix('\n').replace(' | ', ' ').split(' ') for v in values]
 
 
 def part01(values: Tuple[str]) -> int:
-    return sum([len(list(filter(lambda x: len(x) in (2, 3, 4, 7), v[1]))) for v in parse_input(values)])
+    return len(list(filter(lambda x: x in (2, 3, 4, 7), map(len, [x for i in parse_input(values) for x in i[10:]]))))
 
 
 def part02(values: Tuple[str]) -> int:
